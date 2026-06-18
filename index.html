@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC방 유료게임 시간 계산기</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>PC방 유료게임 시간 계산기</h1>
+    <p>유료게임을 할 때 남은 시간이 얼마나 빨리 차감되는지 계산해보세요.</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>시간 차감 계산</h2>
+
+      <div class="form-row">
+        <label>현재 남은 시간</label>
+        <div class="time-inputs">
+          <input id="remainHours" type="number" min="0" value="2" />
+          <span>시간</span>
+          <input id="remainMinutes" type="number" min="0" max="59" value="0" />
+          <span>분</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>PC방 기본 요금</label>
+        <div class="money-input">
+          <input id="baseFee" type="number" min="1" value="1000" />
+          <span>원 / 1시간</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>유료게임 추가 요금</label>
+        <div class="money-input">
+          <input id="extraFee" type="number" min="0" value="500" />
+          <span>원 / 1시간</span>
+        </div>
+      </div>
+
+      <button id="calculateBtn">계산하기</button>
+    </section>
+
+    <section class="card result-card">
+      <h2>계산 결과</h2>
+
+      <div class="result-box">
+        <p>차감 배율</p>
+        <strong id="rateResult">-</strong>
+      </div>
+
+      <div class="result-box">
+        <p>실제 플레이 가능 시간</p>
+        <strong id="timeResult">-</strong>
+      </div>
+
+      <div class="result-box">
+        <p>1시간 플레이 시 차감되는 시간</p>
+        <strong id="hourResult">-</strong>
+      </div>
+    </section>
+
+    <section class="card info-card">
+      <h2>사용 방법</h2>
+      <p>
+        PC방에 남은 시간과 기본 요금, 유료게임 추가 요금을 입력하면
+        실제로 몇 분 동안 플레이할 수 있는지 계산해줍니다.
+      </p>
+      <p>
+        유료게임 추가 요금이 없는 게임은 추가 요금을 0원으로 입력하면 됩니다.
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
