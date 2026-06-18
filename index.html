@@ -3,76 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PC방 유료게임 시간 계산기</title>
+  <title>PC방 유료게임 차감 분석기</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="header">
-    <h1>PC방 유료게임 시간 계산기</h1>
-    <p>유료게임을 할 때 남은 시간이 얼마나 빨리 차감되는지 계산해보세요.</p>
+  <header class="hero">
+    <p class="badge">PC방 시간 분석 서비스</p>
+    <h1>PC방 유료게임 차감 분석기</h1>
+    <p>
+      유료게임을 플레이한 뒤, PC방 시간이 실제로 얼마나 더 빠르게 차감됐는지 분석해드립니다.
+    </p>
   </header>
 
   <main class="container">
     <section class="card">
-      <h2>시간 차감 계산</h2>
+      <h2>1. 시작 전 정보 입력</h2>
 
-      <div class="form-row">
-        <label>현재 남은 시간</label>
+      <div class="form-group">
+        <label for="gameSelect">플레이한 게임</label>
+        <select id="gameSelect">
+          <option value="리그 오브 레전드">리그 오브 레전드</option>
+          <option value="발로란트">발로란트</option>
+          <option value="배틀그라운드">배틀그라운드</option>
+          <option value="FC 온라인">FC 온라인</option>
+          <option value="오버워치 2">오버워치 2</option>
+          <option value="기타 유료게임">기타 유료게임</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>유료게임 시작 전 남은 시간</label>
+
+        <div class="quick-buttons">
+          <button type="button" class="quick-btn" data-target="start" data-minutes="30">30분</button>
+          <button type="button" class="quick-btn" data-target="start" data-minutes="60">1시간</button>
+          <button type="button" class="quick-btn" data-target="start" data-minutes="120">2시간</button>
+          <button type="button" class="quick-btn" data-target="start" data-minutes="180">3시간</button>
+          <button type="button" class="quick-btn" data-target="start" data-minutes="300">5시간</button>
+        </div>
+
         <div class="time-inputs">
-          <input id="remainHours" type="number" min="0" value="2" />
+          <input id="startHours" type="number" min="0" value="2" />
           <span>시간</span>
-          <input id="remainMinutes" type="number" min="0" max="59" value="0" />
+          <input id="startMinutes" type="number" min="0" max="59" value="0" />
           <span>분</span>
         </div>
       </div>
 
-      <div class="form-row">
-        <label>PC방 기본 요금</label>
-        <div class="money-input">
-          <input id="baseFee" type="number" min="1" value="1000" />
-          <span>원 / 1시간</span>
+      <button id="startBtn" type="button" class="primary-btn">유료게임 시작</button>
+
+      <div class="status-box">
+        <p>측정 상태</p>
+        <strong id="statusText">아직 시작하지 않았습니다.</strong>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. 종료 후 남은 시간 입력</h2>
+
+      <div class="form-group">
+        <label>유료게임 종료 후 남은 시간</label>
+
+        <div class="quick-buttons">
+          <button type="button" class="quick-btn" data-target="end" data-minutes="30">30분</button>
+          <button type="button" class="quick-btn" data-target="end" data-minutes="60">1시간</button>
+          <button type="button" class="quick-btn" data-target="end" data-minutes="120">2시간</button>
+          <button type="button" class="quick-btn" data-target="end" data-minutes="180">3시간</button>
+          <button type="button" class="quick-btn" data-target="end" data-minutes="300">5시간</button>
+        </div>
+
+        <div class="time-inputs">
+          <input id="endHours" type="number" min="0" value="1" />
+          <span>시간</span>
+          <input id="endMinutes" type="number" min="0" max="59" value="30" />
+          <span>분</span>
         </div>
       </div>
 
-      <div class="form-row">
-        <label>유료게임 추가 요금</label>
-        <div class="money-input">
-          <input id="extraFee" type="number" min="0" value="500" />
-          <span>원 / 1시간</span>
-        </div>
-      </div>
-
-      <button id="calculateBtn">계산하기</button>
+      <button id="analyzeBtn" type="button" class="primary-btn">분석하기</button>
+      <button id="resetBtn" type="button" class="reset-btn">처음부터 다시하기</button>
     </section>
 
     <section class="card result-card">
-      <h2>계산 결과</h2>
+      <h2>분석 결과</h2>
 
-      <div class="result-box">
-        <p>차감 배율</p>
-        <strong id="rateResult">-</strong>
+      <div class="result-grid">
+        <div class="result-box">
+          <p>실제 플레이 시간</p>
+          <strong id="playTimeResult">-</strong>
+        </div>
+
+        <div class="result-box">
+          <p>PC방에서 차감된 시간</p>
+          <strong id="deductedTimeResult">-</strong>
+        </div>
+
+        <div class="result-box">
+          <p>추가로 차감된 시간</p>
+          <strong id="extraTimeResult">-</strong>
+        </div>
+
+        <div class="result-box">
+          <p>차감 배율</p>
+          <strong id="rateResult">-</strong>
+        </div>
+
+        <div class="result-box">
+          <p>추가 차감률</p>
+          <strong id="percentResult">-</strong>
+        </div>
+
+        <div class="result-box">
+          <p>최종 남은 시간</p>
+          <strong id="remainResult">-</strong>
+        </div>
       </div>
 
-      <div class="result-box">
-        <p>실제 플레이 가능 시간</p>
-        <strong id="timeResult">-</strong>
-      </div>
-
-      <div class="result-box">
-        <p>1시간 플레이 시 차감되는 시간</p>
-        <strong id="hourResult">-</strong>
-      </div>
+      <p id="summaryText" class="summary">
+        유료게임 시작 후 분석 결과가 여기에 표시됩니다.
+      </p>
     </section>
 
-    <section class="card info-card">
+    <section class="card guide-card">
       <h2>사용 방법</h2>
-      <p>
-        PC방에 남은 시간과 기본 요금, 유료게임 추가 요금을 입력하면
-        실제로 몇 분 동안 플레이할 수 있는지 계산해줍니다.
-      </p>
-      <p>
-        유료게임 추가 요금이 없는 게임은 추가 요금을 0원으로 입력하면 됩니다.
-      </p>
+      <ol>
+        <li>PC방 프로그램에 표시된 남은 시간을 입력합니다.</li>
+        <li>유료게임을 시작할 때 <strong>유료게임 시작</strong> 버튼을 누릅니다.</li>
+        <li>게임이 끝난 뒤 PC방 프로그램의 남은 시간을 다시 입력합니다.</li>
+        <li><strong>분석하기</strong> 버튼을 누르면 실제 차감 배율을 확인할 수 있습니다.</li>
+      </ol>
     </section>
   </main>
 

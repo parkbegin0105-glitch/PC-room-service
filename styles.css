@@ -9,36 +9,46 @@ body {
   color: #111827;
 }
 
-.header {
-  background: linear-gradient(135deg, #111827, #2563eb);
-  color: white;
-  padding: 40px 24px;
+.hero {
+  padding: 48px 24px;
   text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #111827, #1d4ed8);
 }
 
-.header h1 {
+.badge {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 14px;
+}
+
+.hero h1 {
   margin: 0;
-  font-size: 34px;
+  font-size: 36px;
 }
 
-.header p {
-  margin-top: 12px;
-  font-size: 16px;
-  opacity: 0.9;
+.hero p {
+  max-width: 620px;
+  margin: 14px auto 0;
+  line-height: 1.6;
+  opacity: 0.92;
 }
 
 .container {
-  width: 90%;
-  max-width: 760px;
-  margin: 30px auto;
+  width: 92%;
+  max-width: 900px;
+  margin: 32px auto;
 }
 
 .card {
-  background: white;
-  border-radius: 18px;
-  padding: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 26px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
 }
 
 .card h2 {
@@ -46,64 +56,120 @@ body {
   margin-bottom: 20px;
 }
 
-.form-row {
-  margin-bottom: 18px;
+.form-group {
+  margin-bottom: 22px;
 }
 
 label {
   display: block;
+  margin-bottom: 10px;
   font-weight: bold;
-  margin-bottom: 8px;
 }
 
+select,
 input {
-  width: 100%;
-  padding: 12px;
+  padding: 13px;
   border: 1px solid #d1d5db;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 16px;
 }
 
-.time-inputs,
-.money-input {
+select {
+  width: 100%;
+}
+
+.time-inputs {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 .time-inputs input {
-  width: 100px;
+  width: 110px;
 }
 
-.money-input input {
-  max-width: 200px;
+.quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-button {
+.quick-btn {
+  border: none;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #111827;
+  cursor: pointer;
+}
+
+.quick-btn:hover {
+  background: #d1d5db;
+}
+
+.primary-btn {
   width: 100%;
   border: none;
+  padding: 15px;
+  border-radius: 14px;
   background: #2563eb;
   color: white;
-  padding: 14px;
-  border-radius: 12px;
   font-size: 17px;
   font-weight: bold;
   cursor: pointer;
 }
 
-button:hover {
+.primary-btn:hover {
   background: #1d4ed8;
+}
+
+.reset-btn {
+  width: 100%;
+  margin-top: 10px;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  background: #6b7280;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background: #4b5563;
+}
+
+.status-box {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #eff6ff;
+}
+
+.status-box p {
+  margin: 0 0 6px;
+  color: #6b7280;
+}
+
+.status-box strong {
+  color: #1d4ed8;
 }
 
 .result-card {
   border: 2px solid #dbeafe;
 }
 
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
 .result-box {
-  background: #f9fafb;
-  border-radius: 14px;
   padding: 18px;
-  margin-bottom: 14px;
+  border-radius: 16px;
+  background: #f9fafb;
 }
 
 .result-box p {
@@ -112,32 +178,41 @@ button:hover {
 }
 
 .result-box strong {
-  font-size: 26px;
+  font-size: 24px;
   color: #2563eb;
 }
 
-.info-card {
-  background: #eff6ff;
+.summary {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 16px;
+  background: #fef3c7;
+  line-height: 1.7;
 }
 
-.info-card p {
+.guide-card {
+  background: #f8fafc;
+}
+
+.guide-card li {
+  margin-bottom: 10px;
   line-height: 1.6;
 }
 
-@media (max-width: 600px) {
-  .header h1 {
-    font-size: 26px;
+@media (max-width: 640px) {
+  .hero h1 {
+    font-size: 28px;
   }
 
-  .time-inputs,
-  .money-input {
-    flex-direction: column;
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .time-inputs {
     align-items: flex-start;
   }
 
-  .time-inputs input,
-  .money-input input {
-    width: 100%;
-    max-width: none;
+  .time-inputs input {
+    width: 90px;
   }
 }
