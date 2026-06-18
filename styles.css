@@ -10,7 +10,7 @@ body {
 }
 
 .hero {
-  padding: 48px 24px;
+  padding: 54px 24px;
   text-align: center;
   color: white;
   background: linear-gradient(135deg, #111827, #1d4ed8);
@@ -27,11 +27,11 @@ body {
 
 .hero h1 {
   margin: 0;
-  font-size: 36px;
+  font-size: 38px;
 }
 
 .hero p {
-  max-width: 620px;
+  max-width: 680px;
   margin: 14px auto 0;
   line-height: 1.6;
   opacity: 0.92;
@@ -39,7 +39,7 @@ body {
 
 .container {
   width: 92%;
-  max-width: 900px;
+  max-width: 960px;
   margin: 32px auto;
 }
 
@@ -64,6 +64,16 @@ label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
+}
+
+label span {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 12px;
 }
 
 select,
@@ -140,11 +150,18 @@ select {
   background: #4b5563;
 }
 
-.status-box {
+.status-box,
+.optional-box {
   margin-top: 18px;
   padding: 18px;
   border-radius: 14px;
   background: #eff6ff;
+}
+
+.optional-box p {
+  margin-top: 0;
+  line-height: 1.6;
+  color: #4b5563;
 }
 
 .status-box p {
@@ -160,26 +177,46 @@ select {
   border: 2px solid #dbeafe;
 }
 
-.result-grid {
+.result-grid,
+.stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
-.result-box {
+.result-box,
+.stat-box {
   padding: 18px;
   border-radius: 16px;
   background: #f9fafb;
 }
 
-.result-box p {
+.result-box p,
+.stat-box p {
   margin: 0 0 8px;
   color: #6b7280;
 }
 
-.result-box strong {
+.result-box strong,
+.stat-box strong {
   font-size: 24px;
   color: #2563eb;
+}
+
+.risk-normal {
+  color: #16a34a !important;
+}
+
+.risk-caution {
+  color: #ca8a04 !important;
+}
+
+.risk-fast {
+  color: #ea580c !important;
+}
+
+.risk-danger {
+  color: #dc2626 !important;
 }
 
 .summary {
@@ -188,6 +225,30 @@ select {
   border-radius: 16px;
   background: #fef3c7;
   line-height: 1.7;
+}
+
+.stats-card {
+  border: 2px solid #dcfce7;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.game-stats-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.game-stat-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
 }
 
 .history-card {
@@ -206,16 +267,36 @@ select {
   margin: 0;
 }
 
-.small-reset-btn {
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.small-btn,
+.small-reset-btn,
+.delete-item-btn {
   border: none;
   padding: 9px 12px;
   border-radius: 10px;
-  background: #ef4444;
   color: white;
   cursor: pointer;
 }
 
-.small-reset-btn:hover {
+.small-btn {
+  background: #2563eb;
+}
+
+.small-btn:hover {
+  background: #1d4ed8;
+}
+
+.small-reset-btn,
+.delete-item-btn {
+  background: #ef4444;
+}
+
+.small-reset-btn:hover,
+.delete-item-btn:hover {
   background: #dc2626;
 }
 
@@ -229,6 +310,12 @@ select {
   border-radius: 14px;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
+}
+
+.history-item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .history-item h3 {
@@ -263,12 +350,28 @@ select {
   line-height: 1.6;
 }
 
-@media (max-width: 640px) {
+.notice-card {
+  background: #fff7ed;
+}
+
+.notice-card p {
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.footer {
+  padding: 28px;
+  text-align: center;
+  color: #6b7280;
+}
+
+@media (max-width: 700px) {
   .hero h1 {
     font-size: 28px;
   }
 
-  .result-grid {
+  .result-grid,
+  .stats-grid {
     grid-template-columns: 1fr;
   }
 
@@ -280,11 +383,19 @@ select {
     width: 90px;
   }
 
-  .history-header {
+  .history-header,
+  .history-item-top,
+  .game-stat-item {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .history-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .small-btn,
   .small-reset-btn {
     width: 100%;
   }

@@ -11,7 +11,7 @@
     <p class="badge">PC방 시간 분석 서비스</p>
     <h1>PC방 유료게임 차감 분석기</h1>
     <p>
-      유료게임을 플레이한 뒤, PC방 시간이 실제로 얼마나 더 빠르게 차감됐는지 분석해드립니다.
+      유료게임을 플레이한 뒤 PC방 시간이 실제로 얼마나 더 빠르게 차감됐는지 분석합니다.
     </p>
   </header>
 
@@ -21,26 +21,12 @@
 
       <div class="form-group">
         <label for="gameSelect">플레이한 게임</label>
-        <select id="gameSelect">
-          <option value="리그 오브 레전드">리그 오브 레전드</option>
-          <option value="발로란트">발로란트</option>
-          <option value="배틀그라운드">배틀그라운드</option>
-          <option value="FC 온라인">FC 온라인</option>
-          <option value="오버워치 2">오버워치 2</option>
-          <option value="기타 유료게임">기타 유료게임</option>
-        </select>
+        <select id="gameSelect"></select>
       </div>
 
       <div class="form-group">
         <label>유료게임 시작 전 남은 시간</label>
-
-        <div class="quick-buttons">
-          <button type="button" class="quick-btn" data-target="start" data-minutes="30">30분</button>
-          <button type="button" class="quick-btn" data-target="start" data-minutes="60">1시간</button>
-          <button type="button" class="quick-btn" data-target="start" data-minutes="120">2시간</button>
-          <button type="button" class="quick-btn" data-target="start" data-minutes="180">3시간</button>
-          <button type="button" class="quick-btn" data-target="start" data-minutes="300">5시간</button>
-        </div>
+        <div id="startQuickButtons" class="quick-buttons"></div>
 
         <div class="time-inputs">
           <input id="startHours" type="number" min="0" value="2" />
@@ -59,18 +45,11 @@
     </section>
 
     <section class="card">
-      <h2>2. 종료 후 남은 시간 입력</h2>
+      <h2>2. 종료 후 정보 입력</h2>
 
       <div class="form-group">
         <label>유료게임 종료 후 남은 시간</label>
-
-        <div class="quick-buttons">
-          <button type="button" class="quick-btn" data-target="end" data-minutes="30">30분</button>
-          <button type="button" class="quick-btn" data-target="end" data-minutes="60">1시간</button>
-          <button type="button" class="quick-btn" data-target="end" data-minutes="120">2시간</button>
-          <button type="button" class="quick-btn" data-target="end" data-minutes="180">3시간</button>
-          <button type="button" class="quick-btn" data-target="end" data-minutes="300">5시간</button>
-        </div>
+        <div id="endQuickButtons" class="quick-buttons"></div>
 
         <div class="time-inputs">
           <input id="endHours" type="number" min="0" value="1" />
@@ -80,8 +59,23 @@
         </div>
       </div>
 
+      <div class="form-group optional-box">
+        <label>실제 플레이 시간 직접 입력 <span>선택</span></label>
+        <p>
+          발표나 테스트처럼 오래 기다릴 수 없을 때만 입력하세요.
+          비워두면 유료게임 시작 버튼을 누른 시각 기준으로 자동 계산됩니다.
+        </p>
+
+        <div class="time-inputs">
+          <input id="manualPlayHours" type="number" min="0" placeholder="0" />
+          <span>시간</span>
+          <input id="manualPlayMinutes" type="number" min="0" max="59" placeholder="30" />
+          <span>분</span>
+        </div>
+      </div>
+
       <button id="analyzeBtn" type="button" class="primary-btn">분석하기</button>
-      <button id="resetBtn" type="button" class="reset-btn">처음부터 다시하기</button>
+      <button id="resetBtn" type="button" class="reset-btn">측정 초기화</button>
     </section>
 
     <section class="card result-card">
@@ -114,8 +108,8 @@
         </div>
 
         <div class="result-box">
-          <p>최종 남은 시간</p>
-          <strong id="remainResult">-</strong>
+          <p>차감 상태</p>
+          <strong id="riskResult">-</strong>
         </div>
       </div>
 
@@ -124,10 +118,39 @@
       </p>
     </section>
 
+    <section class="card stats-card">
+      <h2>누적 분석 통계</h2>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <p>전체 분석 횟수</p>
+          <strong id="totalCount">0회</strong>
+        </div>
+
+        <div class="stat-box">
+          <p>평균 차감 배율</p>
+          <strong id="averageRate">-</strong>
+        </div>
+
+        <div class="stat-box">
+          <p>평균 추가 차감률</p>
+          <strong id="averagePercent">-</strong>
+        </div>
+      </div>
+
+      <h3>게임별 평균 차감 배율</h3>
+      <div id="gameStatsList" class="game-stats-list">
+        <p class="empty-history">아직 게임별 통계가 없습니다.</p>
+      </div>
+    </section>
+
     <section class="card history-card">
       <div class="history-header">
         <h2>최근 분석 기록</h2>
-        <button id="clearHistoryBtn" type="button" class="small-reset-btn">기록 삭제</button>
+        <div class="history-actions">
+          <button id="downloadCsvBtn" type="button" class="small-btn">CSV 다운로드</button>
+          <button id="clearHistoryBtn" type="button" class="small-reset-btn">전체 삭제</button>
+        </div>
       </div>
 
       <div id="historyList" class="history-list">
@@ -138,15 +161,31 @@
     <section class="card guide-card">
       <h2>사용 방법</h2>
       <ol>
-        <li>PC방 프로그램에 표시된 <strong>시작 전 남은 시간</strong>을 입력합니다.</li>
-        <li>플레이할 게임을 선택하고 <strong>유료게임 시작</strong> 버튼을 누릅니다.</li>
-        <li>게임이 끝난 뒤 PC방 프로그램의 <strong>종료 후 남은 시간</strong>을 입력합니다.</li>
-        <li><strong>분석하기</strong> 버튼을 누르면 실제 차감 시간과 차감 배율을 확인할 수 있습니다.</li>
-        <li>분석 결과는 <strong>최근 분석 기록</strong>에 자동으로 저장됩니다.</li>
+        <li>PC방 프로그램에 표시된 시작 전 남은 시간을 입력합니다.</li>
+        <li>플레이할 유료게임을 선택하고 <strong>유료게임 시작</strong> 버튼을 누릅니다.</li>
+        <li>게임이 끝난 뒤 PC방 프로그램의 종료 후 남은 시간을 입력합니다.</li>
+        <li><strong>분석하기</strong> 버튼을 누르면 차감 시간, 차감 배율, 위험도가 계산됩니다.</li>
+        <li>분석 기록은 브라우저에 저장되며, CSV 파일로 다운로드할 수 있습니다.</li>
       </ol>
+    </section>
+
+    <section class="card notice-card">
+      <h2>서비스 설명</h2>
+      <p>
+        이 서비스는 PC방 시스템과 직접 연동하지 않고, 사용자가 확인한 남은 시간을 기준으로
+        유료게임 이용 중 시간이 얼마나 빠르게 차감됐는지 역산합니다.
+      </p>
+      <p>
+        계산식: 차감 배율 = PC방에서 차감된 시간 ÷ 실제 플레이 시간
+      </p>
     </section>
   </main>
 
+  <footer class="footer">
+    <p>PC방 유료게임 차감 분석기 · HTML/CSS/JavaScript Project</p>
+  </footer>
+
+  <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
