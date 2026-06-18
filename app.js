@@ -8,6 +8,7 @@ const endMinutesInput = document.querySelector("#endMinutes");
 const startBtn = document.querySelector("#startBtn");
 const analyzeBtn = document.querySelector("#analyzeBtn");
 const resetBtn = document.querySelector("#resetBtn");
+const clearHistoryBtn = document.querySelector("#clearHistoryBtn");
 
 const statusText = document.querySelector("#statusText");
 
@@ -19,9 +20,12 @@ const percentResult = document.querySelector("#percentResult");
 const remainResult = document.querySelector("#remainResult");
 const summaryText = document.querySelector("#summaryText");
 
+const historyList = document.querySelector("#historyList");
+
 let session = loadSession();
 
 updateStatus();
+renderHistory();
 
 document.querySelectorAll(".quick-btn").forEach((button) => {
   button.addEventListener("click", () => {
@@ -101,6 +105,21 @@ analyzeBtn.addEventListener("click", () => {
     `PC방 시간은 ${formatDuration(deductedMinutes)} 차감되었습니다. ` +
     `즉, 일반 시간보다 약 ${deductionRate.toFixed(2)}배 빠르게 차감된 것으로 분석됩니다.`;
 
+  const historyItem = {
+    id: Date.now(),
+    game: session.game,
+    playMinutes,
+    deductedMinutes,
+    extraMinutes,
+    deductionRate,
+    extraPercent,
+    endRemainMinutes,
+    createdAt: new Date().toISOString(),
+  };
+
+  saveHistory(historyItem);
+  renderHistory();
+
   clearSession();
   session = null;
   updateStatus();
@@ -119,6 +138,17 @@ resetBtn.addEventListener("click", () => {
   summaryText.textContent = "유료게임 시작 후 분석 결과가 여기에 표시됩니다.";
 
   updateStatus();
+});
+
+clearHistoryBtn.addEventListener("click", () => {
+  const confirmDelete = confirm("최근 분석 기록을 모두 삭제할까요?");
+
+  if (!confirmDelete) {
+    return;
+  }
+
+  localStorage.removeItem("pcbangHistory");
+  renderHistory();
 });
 
 function getTotalMinutes(hoursInput, minutesInput) {
@@ -198,4 +228,51 @@ function updateStatus() {
 
   statusText.textContent =
     `${session.game} 측정 중 · 시작 시간 ${hour}:${minute} · 시작 전 남은 시간 ${formatDuration(session.startRemainMinutes)}`;
+}
+
+function saveHistory(item) {
+  const history = loadHistory();
+
+  history.unshift(item);
+
+  const limitedHistory = history.slice(0, 10);
+
+  localStorage.setItem("pcbangHistory", JSON.stringify(limitedHistory));
+}
+
+function loadHistory() {
+  const saved = localStorage.getItem("pcbangHistory");
+
+  if (!saved) {
+    return [];
+  }
+
+  return JSON.parse(saved);
+}
+
+function renderHistory() {
+  const history = loadHistory();
+
+  if (history.length === 0) {
+    historyList.innerHTML = `<p class="empty-history">아직 분석 기록이 없습니다.</p>`;
+    return;
+  }
+
+  historyList.innerHTML = history.map((item) => {
+    const date = new Date(item.createdAt);
+    const dateText =
+      `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} ` +
+      `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+
+    return `
+      <div class="history-item">
+        <h3>${item.game}</h3>
+        <p class="history-date">${dateText}</p>
+        <p>실제 플레이 시간: <strong>${formatDuration(item.playMinutes)}</strong></p>
+        <p>PC방 차감 시간: <strong>${formatDuration(item.deductedMinutes)}</strong></p>
+        <p>추가 차감 시간: <strong>${formatSignedDuration(item.extraMinutes)}</strong></p>
+        <p>차감 배율: <strong>${item.deductionRate.toFixed(2)}배</strong></p>
+      </div>
+    `;
+  }).join("");
 }

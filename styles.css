@@ -190,6 +190,70 @@ select {
   line-height: 1.7;
 }
 
+.history-card {
+  border: 2px solid #e5e7eb;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.history-header h2 {
+  margin: 0;
+}
+
+.small-reset-btn {
+  border: none;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+}
+
+.small-reset-btn:hover {
+  background: #dc2626;
+}
+
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.history-item {
+  padding: 16px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.history-item h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.history-item p {
+  margin: 5px 0;
+  color: #4b5563;
+}
+
+.history-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.empty-history {
+  margin: 0;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f9fafb;
+  color: #6b7280;
+}
+
 .guide-card {
   background: #f8fafc;
 }
@@ -214,5 +278,14 @@ select {
 
   .time-inputs input {
     width: 90px;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .small-reset-btn {
+    width: 100%;
   }
 }
